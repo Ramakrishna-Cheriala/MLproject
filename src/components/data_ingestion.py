@@ -32,9 +32,11 @@ class DataIngestion:
 
             logging.info("read the dataset as dataframe")
 
-            os.makedirs(
-                os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True
-            )
+            print("Current Working Directory:", os.getcwd())
+            print(parent_dir, "\n", current_dir)
+            artifacts_dir = os.path.join(os.getcwd(), "artifacts")
+            print("Artifacts Directory:", artifacts_dir)
+            os.makedirs(artifacts_dir, exist_ok=True)
 
             df.to_csv(self.ingestion_config.raw_data_path, index=False, header=True)
 
