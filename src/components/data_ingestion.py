@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
 from data_transformation import DataTransformation, DataTransformationConfig
+from model_trainer import ModelTrainer, ModelTranierConfig
 
 
 @dataclass
@@ -34,10 +35,10 @@ class DataIngestion:
 
             logging.info("read the dataset as dataframe")
 
-            print("Current Working Directory:", os.getcwd())
-            print(parent_dir, "\n", current_dir)
+            # print("Current Working Directory:", os.getcwd())
+            # print(parent_dir, "\n", current_dir)
             artifacts_dir = os.path.join(os.getcwd(), "artifacts")
-            print("Artifacts Directory:", artifacts_dir)
+            # print("Artifacts Directory:", artifacts_dir)
             os.makedirs(artifacts_dir, exist_ok=True)
 
             df.to_csv(self.ingestion_config.raw_data_path, index=False, header=True)
@@ -70,4 +71,11 @@ if __name__ == "__main__":
     train_data, test_data = obj.intiate_data_ingestion()
 
     data_transformation = DataTransformation()
-    data_transformation.initiate_data_transformation(train_data, test_data)
+    train_arr, test_arr, _ = data_transformation.initiate_data_transformation(
+        train_data, test_data
+    )
+
+    model_trainer = ModelTrainer()
+    print(
+        "\nBest Model Score: ", model_trainer.intiate_model_trainer(train_arr, test_arr)
+    )
